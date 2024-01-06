@@ -41,17 +41,17 @@ download_release() {
 
 	local platform
 	case "$OSTYPE" in
-		darwin*) platform="darwin" ;;
-		linux*) platform="linux" ;;
-		*) fail "Unsupported Platform: $OSTYPE" ;;
+	darwin*) platform="darwin" ;;
+	linux*) platform="linux" ;;
+	*) fail "Unsupported Platform: $OSTYPE" ;;
 	esac
 
 	local arch
 	arch="$(uname -m)"
 	case "$arch" in
-		"x86_64" | "amd64") arch="amd64" ;;
-		"arm64" | "aarch64") arch="arm64" ;;
-		*) fail "Unsupported Architecture: $arch" ;;
+	"x86_64" | "amd64") arch="amd64" ;;
+	"arm64" | "aarch64") arch="arm64" ;;
+	*) fail "Unsupported Architecture: $arch" ;;
 	esac
 
 	url="$TEMPORAL_DOWNLOAD/cli/archive/v$version?platform=$platform&arch=$arch"
