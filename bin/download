@@ -20,6 +20,6 @@ download_release "$ASDF_INSTALL_VERSION" "$release_file"
 tar -xzf "$release_file" -C "$ASDF_DOWNLOAD_PATH" || fail "Could not extract $release_file"
 
 # Remove license file so that it's not in bin
-rm "LICENSE"
+rm "$ASDF_DOWNLOAD_PATH/LICENSE"
 # Remove the tar.gz file since we don't need to keep it
 rm "$release_file"
