@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for temporal.
-GH_REPO="https://github.com/temporalio/temporal"
+TEMPORAL_DOWNLOAD="https://temporal.download"
+GH_REPO="https://github.com/temporalio/cli"
 TOOL_NAME="temporal"
 TOOL_TEST="temporal --version"
 
@@ -41,8 +41,22 @@ download_release() {
 	version="$1"
 	filename="$2"
 
-	# TODO: Adapt the release URL convention for temporal
-	url="$GH_REPO/archive/v${version}.tar.gz"
+	local platform
+	case "$OSTYPE" in
+		darwin*) platform="darwin" ;;
+		linux*) platform="linux" ;;
+		*) fail "Unsupported Platform: $OSTYPE" ;;
+	esac
+
+	local arch
+	arch="$(uname -m)"
+	case "$arch" in
+		"x86_64" | "amd64") arch="amd64" ;;
+		"arm64" | "aarch64") arch="arm64" ;;
+		*) fail "Unsupported Architecture: $arch" ;;
+	esac
+
+	url="$TEMPORAL_DOWNLOAD/cli/archive/v$version?platform=$platform&arch=$arch"
 
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
